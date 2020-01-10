@@ -3,10 +3,14 @@ package org.fasttrackit.bookreview1.service;
 import org.fasttrackit.bookreview1.domain.Book;
 import org.fasttrackit.bookreview1.exception.ResourceNotFoundException;
 import org.fasttrackit.bookreview1.persisteance.BookRepository;
+import org.fasttrackit.bookreview1.transfer.GetBookRequest;
 import org.fasttrackit.bookreview1.transfer.SaveBookRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -45,5 +49,28 @@ public class BookService {
                 -> new ResourceNotFoundException("Book " + id + " not found" ));
     }
 
+    public Page<Book> getBooks (GetBookRequest request, Pageable pageable){
+        LOGGER.info("retrieving products: {}", request);
+
+        if(request != null && request.getpartialTitle() !=null && request.getPartialAuthor() != null) {
+            return bookRepository.findByTitleAndAuthor(request.getpartialTitle(), request.getPartialAuthor(), pageable);
+        }
+        else{
+            return bookRepository.findByTitleOrAuthor(request.getPartialAuthor(), pageable);
+        }
+    }
+
+    public Book updateBook(long id, SaveBookRequest request) {
+        LOGGER.info("updating Book {}: {}", id, request);
+
+        Book book = getBook(id);
+        BeanUtils.copyProperties(request, book);
+        return bookRepository.save(book);
+    }
+
+    public void deleteBook(long id){
+        LOGGER.info("deleting book {}", id);
+        bookRepository.deleteById(id);
+    }
 
 }
