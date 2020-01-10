@@ -1,6 +1,7 @@
 package org.fasttrackit.bookreview1.service;
 
 import org.fasttrackit.bookreview1.domain.Book;
+import org.fasttrackit.bookreview1.exception.ResourceNotFoundException;
 import org.fasttrackit.bookreview1.persisteance.BookRepository;
 import org.fasttrackit.bookreview1.transfer.SaveBookRequest;
 import org.slf4j.Logger;
@@ -38,7 +39,11 @@ public class BookService {
 
         return bookRepository.save(book);
     }
-
+    public Book getBook(long id) {
+        LOGGER.info("Retrieving Book ", id);
+        return bookRepository.findById(id).orElseThrow(()
+                -> new ResourceNotFoundException("Book " + id + " not found" ));
+    }
 
 
 }
