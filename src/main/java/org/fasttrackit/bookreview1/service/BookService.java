@@ -50,7 +50,7 @@ public class BookService {
     }
 
     public Page<Book> getBooks (GetBookRequest request, Pageable pageable){
-        LOGGER.info("retrieving products: {}", request);
+        LOGGER.info("retrieving books: {}", request);
 
         if(request != null && request.getpartialTitle() !=null && request.getPartialAuthor() != null) {
             return bookRepository.findByTitleAndAuthor(request.getpartialTitle(), request.getPartialAuthor(), pageable);

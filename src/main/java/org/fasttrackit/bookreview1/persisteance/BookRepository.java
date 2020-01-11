@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 public interface BookRepository extends JpaRepository<Book,Long> {
 
     Page<Book> findByTitleAndAuthor(String partialTitle, String partialAuthor, Pageable pageable);
-    @Query(value = "SELECT product FROM Product product where name Like '%?%'",
+    @Query(value = "SELECT book FROM Book book where name Like '%?%'",
             nativeQuery= true)
     Page<Book> findByTitleOrAuthor(String partialTitle, Pageable pageable);
 
