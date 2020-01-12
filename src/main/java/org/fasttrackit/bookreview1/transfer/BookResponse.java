@@ -1,45 +1,25 @@
-package org.fasttrackit.bookreview1.domain;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.validation.constraints.NotNull;
-import java.util.HashSet;
+package org.fasttrackit.bookreview1.transfer;
 import java.util.Objects;
-import java.util.Set;
 
-@Entity
-public class Book {
-    @Id
-    @GeneratedValue
-    private Long id;
-    @NotNull
+public class BookResponse {
+
+    private long id;
     private String title;
-    @NotNull
     private String author;
-    @NotNull
     private int yearOfRelease;
-    @NotNull
     private String language;
-    @NotNull
     private String type;
-    @NotNull
     private String description;
     private int pages;
-    private String imagePath;
-
+    private int rank;
     private int likes;
     private Double price;
 
-    @ManyToMany(mappedBy = "books")
-    private Set<Cart> carts = new HashSet<>();
-
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -99,14 +79,13 @@ public class Book {
         this.pages = pages;
     }
 
-    public String getImagePath() {
-        return imagePath;
+    public int getRank() {
+        return rank;
     }
 
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
+    public void setRank(int rank) {
+        this.rank = rank;
     }
-
 
     public int getLikes() {
         return likes;
@@ -123,17 +102,10 @@ public class Book {
     public void setPrice(Double price) {
         this.price = price;
     }
-    public Set<Cart> getCarts() {
-        return carts;
-    }
-
-    public void setCarts(Set<Cart> carts) {
-        this.carts = carts;
-    }
 
     @Override
     public String toString() {
-        return "Book{" +
+        return "BookResponse{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", author='" + author + '\'' +
@@ -142,10 +114,9 @@ public class Book {
                 ", type='" + type + '\'' +
                 ", description='" + description + '\'' +
                 ", pages=" + pages +
-                ", imagePath='" + imagePath + '\'' +
+                ", rank=" + rank +
                 ", likes=" + likes +
                 ", price=" + price +
-                ", carts=" + carts +
                 '}';
     }
 
@@ -153,21 +124,22 @@ public class Book {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Book book = (Book) o;
-        return id == book.id &&
-                yearOfRelease == book.yearOfRelease &&
-                pages == book.pages &&
-
-                likes == book.likes &&
-                Objects.equals(title, book.title) &&
-                Objects.equals(author, book.author) &&
-                Objects.equals(language, book.language) &&
-                Objects.equals(type, book.type) &&
-                Objects.equals(description, book.description) &&
-                Objects.equals(price, book.price) &&
-                Objects.equals(imagePath, book.imagePath) &&
-                Objects.equals(carts, book.carts);
+        BookResponse that = (BookResponse) o;
+        return id == that.id &&
+                yearOfRelease == that.yearOfRelease &&
+                pages == that.pages &&
+                rank == that.rank &&
+                likes == that.likes &&
+                Objects.equals(title, that.title) &&
+                Objects.equals(author, that.author) &&
+                Objects.equals(language, that.language) &&
+                Objects.equals(type, that.type) &&
+                Objects.equals(description, that.description) &&
+                Objects.equals(price, that.price);
     }
 
-
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, author, yearOfRelease, language, type, description, pages, rank, likes, price);
+    }
 }
