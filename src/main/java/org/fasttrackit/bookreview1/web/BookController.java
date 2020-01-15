@@ -2,6 +2,7 @@ package org.fasttrackit.bookreview1.web;
 
 import org.fasttrackit.bookreview1.domain.Book;
 import org.fasttrackit.bookreview1.service.BookService;
+import org.fasttrackit.bookreview1.transfer.BookResponse;
 import org.fasttrackit.bookreview1.transfer.GetBookRequest;
 import org.fasttrackit.bookreview1.transfer.SaveBookRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,10 +33,15 @@ public class BookController {
         return new ResponseEntity<>(book, HttpStatus.OK);
     }
     @GetMapping
-    public ResponseEntity<Page<Book>> getBooks(GetBookRequest request, Pageable pageable){
-        Page<Book> books = bookService.getBooks(request, pageable);
+    public ResponseEntity<Page<BookResponse>> getBooks(GetBookRequest request, Pageable pageable){
+        Page<BookResponse> books = bookService.getBooks(request, pageable);
         return new ResponseEntity<>(books, HttpStatus.OK);
     }
+//    public  ResponseEntity<Page<ProductResponse>> getProducts(GetProductsRequest request, Pageable pageable){
+//        Page<ProductResponse> products = productService.getProducts(request, pageable);
+//        return  new ResponseEntity<>(products, HttpStatus.OK);
+//
+
     @PutMapping("/{id}")
     public ResponseEntity<Book> updateBook(@PathVariable("id") long id, @RequestBody SaveBookRequest request){
         Book book = bookService.updateBook(id, request);

@@ -4,6 +4,7 @@ import org.fasttrackit.bookreview1.domain.Book;
 import org.fasttrackit.bookreview1.exception.ResourceNotFoundException;
 import org.fasttrackit.bookreview1.service.BookService;
 import org.fasttrackit.bookreview1.steps.BookSteps;
+import org.fasttrackit.bookreview1.transfer.BookResponse;
 import org.fasttrackit.bookreview1.transfer.GetBookRequest;
 import org.fasttrackit.bookreview1.transfer.SaveBookRequest;
 import org.junit.Test;
@@ -60,7 +61,7 @@ public class BookServiceIntegrationTests {
 		request.setpartialTitle(createdBook.getTitle());
 
 
-		Page<Book> books = bookService.getBooks(request, Pageable.unpaged());
+		Page<BookResponse> books = bookService.getBooks(request, Pageable.unpaged());
 
 		assertThat(books.iterator().next().getAuthor(), is(createdBook.getAuthor()));
 		assertThat(books.iterator().next().getTitle(), is(createdBook.getTitle()));
