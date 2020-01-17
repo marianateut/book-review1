@@ -6,11 +6,11 @@ public class GetBookRequest {
 
     //Wrapper class accepts so it will also accept null
 
-    public String getpartialTitle() {
+    public String getPartialTitle() {
         return  partialTitle;
     }
 
-    public void setpartialTitle(String  partialTitle) {
+    public void setPartialTitle(String  partialTitle) {
         this. partialTitle =  partialTitle;
     }
 

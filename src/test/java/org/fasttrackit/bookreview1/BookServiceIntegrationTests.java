@@ -58,7 +58,7 @@ public class BookServiceIntegrationTests {
 		Book createdBook = bookSteps.createBook();
 		GetBookRequest request= new GetBookRequest();
 		request.setPartialAuthor(createdBook.getAuthor());
-		request.setpartialTitle(createdBook.getTitle());
+		request.setPartialTitle(createdBook.getTitle());
 
 
 		Page<BookResponse> books = bookService.getBooks(request, Pageable.unpaged());

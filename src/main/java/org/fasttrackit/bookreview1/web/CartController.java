@@ -18,7 +18,7 @@ public class CartController {
     public CartController(CartService cartService) {
         this.cartService = cartService;
     }
-    @PutMapping("/carts")
+    @PutMapping
     public ResponseEntity addBookToCart(@RequestBody @Valid AddBookToCartRequest request){
         cartService.addBookToCart(request);
         return new ResponseEntity(HttpStatus.NO_CONTENT);

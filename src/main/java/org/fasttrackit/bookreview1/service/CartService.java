@@ -14,7 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
 @Service
 public class CartService {
@@ -36,11 +38,12 @@ public class CartService {
     }
     @Transactional
     public void addBookToCart(AddBookToCartRequest request){
-        LOGGER.info("Adding book to cart");
+        LOGGER.info("Adding book to cart", request);
         Cart cart = cartRepository.findById(request.getUserId()).orElse(new Cart());
         if(cart.getUser() == null){
-            LOGGER.debug(" cart does not exist, retrieving user to create a new cart");
+            LOGGER.debug(" cart does not exist, retrieving user to create a new cart", request.getUserId());
             User user = userService.getUser(request.getUserId());
+            cart.setId(user.getId());
             cart.setUser(user);
         }
         Book book = bookService.getBook(request.getBookId());
@@ -48,23 +51,28 @@ public class CartService {
         cartRepository.save(cart);
     }
     @Transactional
-    public CartResponse getCart(Long userId) {
+    public CartResponse getCart(long userId) {
         LOGGER.info(" retrieving cart for user " + userId);
         Cart cart = cartRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("there is no cart for user " + userId));
         CartResponse cartResponse = new CartResponse();
         cartResponse.setId(cart.getId());
 
+        Set<BookInCartResponse> booksInCart = new HashSet<>();
+
         Iterator<Book> iterator = cart.getBooks().iterator();
+
         while(iterator.hasNext()) {
             Book book = iterator.next();
+
             BookInCartResponse bookInCartResponse = new BookInCartResponse();
             bookInCartResponse.setId(book.getId());
             bookInCartResponse.setTitle(book.getTitle());
             bookInCartResponse.setPrice(book.getPrice());
 
-            cartResponse.getBooks().add(bookInCartResponse);
+            booksInCart.add(bookInCartResponse);
         }
+        cartResponse.setBooks(booksInCart);
         return cartResponse;
     }
 

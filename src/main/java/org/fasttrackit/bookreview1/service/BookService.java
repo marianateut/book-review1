@@ -60,14 +60,14 @@ public class BookService {
     public Page<BookResponse> getBooks(GetBookRequest request, Pageable pageable) {
         LOGGER.info("retrieving books: {}", request);
         Page<Book> books;
-        if (request != null && request.getpartialTitle() != null && request.getPartialAuthor() != null) {
-            books = bookRepository.findByTitleAndAuthor(request.getpartialTitle(),
+        if (request != null && request.getPartialTitle() != null && request.getPartialAuthor() != null) {
+            books = bookRepository.findByTitleAndAuthor(request.getPartialTitle(),
                     request.getPartialAuthor(), pageable);
 
 
         } else
-            if (request != null && request.getpartialTitle() != null) {
-                books = bookRepository.findByTitleOrAuthor(request.getpartialTitle(), pageable);
+            if (request != null && request.getPartialTitle() != null) {
+                books = bookRepository.findByTitleOrAuthor(request.getPartialTitle(), pageable);
             } else
                 {
                 books = bookRepository.findAll(pageable);
