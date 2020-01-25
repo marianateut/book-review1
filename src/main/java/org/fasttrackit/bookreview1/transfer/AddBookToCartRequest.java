@@ -4,16 +4,16 @@ import javax.validation.constraints.NotNull;
 public class AddBookToCartRequest {
 
     @NotNull
-    private Long UserId;
+    private Long userId;
     @NotNull
     private Long bookId;
 
     public Long getUserId() {
-        return UserId;
+        return userId;
     }
 
     public void setUserId(Long userId) {
-        UserId = userId;
+       this.userId = userId;
     }
 
     public Long getBookId() {
@@ -27,7 +27,7 @@ public class AddBookToCartRequest {
     @Override
     public String toString() {
         return "AddBookToCartRequest{" +
-                "UserId=" + UserId +
+                "UserId=" + userId +
                 ", bookId=" + bookId +
                 '}';
     }
